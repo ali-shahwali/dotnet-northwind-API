@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using dotnet_northwind_API.Models;
 using dotnet_northwind_API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_northwind_API.Controllers
 {
@@ -22,16 +23,16 @@ namespace dotnet_northwind_API.Controllers
         }
 
         [HttpGet("getAll")]
-        public List<Employee> Get()
+        public async Task<List<Employee>> Get()
         {
-            return database.Employees.ToList();
+            return await database.Employees.ToListAsync();
         }
 
         [HttpGet("getAllNames")]
-        public List<string> GetNames()
+        public async Task<List<string>> GetNames()
         {
             List<string> names = new List<string>();
-            List<Employee> employees = database.Employees.ToList();
+            List<Employee> employees = await database.Employees.ToListAsync();
             foreach (Employee employee in employees)
             {
                 names.Add(employee.FirstName + " " + employee.LastName);
@@ -41,9 +42,9 @@ namespace dotnet_northwind_API.Controllers
         }
 
         [HttpGet("getEmployeeById/{employeeId}")]
-        public Employee GetEmployeeById(int employeeId)
+        public async Task<Employee> GetEmployeeById(int employeeId)
         {
-            return database.Employees.Where(x => x.EmployeeId == employeeId).FirstOrDefault();
+            return await database.Employees.Where(x => x.EmployeeId == employeeId).FirstOrDefaultAsync();
         }
     }
 }
